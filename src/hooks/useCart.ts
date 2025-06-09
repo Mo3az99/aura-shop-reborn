@@ -114,6 +114,19 @@ export const useCart = () => {
     return total + (price * item.quantity);
   }, 0);
 
+  const clearCartMutation = useMutation({
+  mutationFn: async () => {
+    const { error } = await supabase
+      .from('cart_items')
+      .delete()
+      .eq('session_id', sessionId);
+    if (error) throw error;
+  },
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ['cart', sessionId] });
+  }
+  });
+
   return {
     cartItems,
     cartItemsCount,
@@ -121,6 +134,7 @@ export const useCart = () => {
     addToCart: addToCartMutation.mutate,
     updateQuantity: updateQuantityMutation.mutate,
     removeFromCart: removeFromCartMutation.mutate,
+    clearCart: clearCartMutation.mutate,
     isLoading: addToCartMutation.isPending || updateQuantityMutation.isPending || removeFromCartMutation.isPending
   };
 };

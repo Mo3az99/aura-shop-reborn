@@ -26,10 +26,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const { addToCart } = useCart();
 
-  const handleAddToCart = () => {
-    addToCart(product.id);
-    toast.success("Added to cart!");
-  };
+const handleAddToCart = () => {
+  addToCart(product.id);
+  toast.success("Added to cart!", {
+    duration: 3000 // auto-dismiss after 3 seconds
+  });
+};
 
   const displayPrice = product.sale_price || product.price;
   const hasDiscount = product.sale_price && product.sale_price < product.price;

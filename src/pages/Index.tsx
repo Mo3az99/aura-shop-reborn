@@ -10,6 +10,8 @@ import CategorySection from "@/components/CategorySection";
 import Cart from "@/components/Cart";
 import { useCart } from "@/hooks/useCart";
 
+import Header from "@/components/Header";
+
 const Index = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
