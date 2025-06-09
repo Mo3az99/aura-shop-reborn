@@ -2,6 +2,7 @@
 import { X, Plus, Minus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/useCart";
+import { useNavigate } from "react-router-dom";
 
 interface CartProps {
   isOpen: boolean;
@@ -10,6 +11,12 @@ interface CartProps {
 
 const Cart = ({ isOpen, onClose }: CartProps) => {
   const { cartItems, cartTotal, updateQuantity, removeFromCart } = useCart();
+  const navigate = useNavigate();
+
+  const handleCheckout = () => {
+    onClose();
+    navigate("/checkout");
+  };
 
   if (!isOpen) return null;
 
@@ -93,7 +100,7 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
                 <span>TOTAL:</span>
                 <span>${cartTotal.toFixed(2)}</span>
               </div>
-              <Button className="w-full bg-black hover:bg-gray-800 text-white font-medium py-3">
+              <Button onClick={handleCheckout}  className="w-full bg-black hover:bg-gray-800 text-white font-medium py-3">
                 CHECKOUT
               </Button>
             </div>

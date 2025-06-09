@@ -8,6 +8,9 @@ import Index from "./pages/Index";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminLogin from "./pages/AdminLogin";
 import NotFound from "./pages/NotFound";
+import AboutUs from "./pages/AboutUs";
+import ContactUs from "./pages/ContactUs";
+import Checkout from "./pages/Checkout";
 
 const queryClient = new QueryClient();
 
@@ -22,7 +25,10 @@ const App = () => (
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="*" element={<NotFound />} />
-        </Routes>
+          <Route path="/about" element={<AboutUs />} />
+  <Route path="/contact" element={<ContactUs />} />
+  <Route path="/checkout" element={<Checkout />} />
+</Routes>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
