@@ -37,14 +37,6 @@ const Checkout = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^01[0125][0-9]{8}$/;
     return (
-
-      <div className="flex justify-between items-center p-4 border-b">
-        <button onClick={() => navigate('/')} className="text-xl font-bold text-gray-800 hover:text-black">Aura</button>
-        <button onClick={() => navigate('/cart')} className="text-gray-600 hover:text-black">
-          🛒 Cart
-        </button>
-      </div>
-
       emailRegex.test(form.email) &&
       form.firstName &&
       form.lastName &&
@@ -107,14 +99,6 @@ const Checkout = () => {
 
   if (success) {
     return (
-
-      <div className="flex justify-between items-center p-4 border-b">
-        <button onClick={() => navigate('/')} className="text-xl font-bold text-gray-800 hover:text-black">Aura</button>
-        <button onClick={() => navigate('/cart')} className="text-gray-600 hover:text-black">
-          🛒 Cart
-        </button>
-      </div>
-
       <div className="p-8 text-green-600 text-xl text-center">
         Order placed successfully!
       </div>
@@ -122,18 +106,11 @@ const Checkout = () => {
   }
 
   return (
-
-      <div className="flex justify-between items-center p-4 border-b">
-        <button onClick={() => navigate('/')} className="text-xl font-bold text-gray-800 hover:text-black">Aura</button>
-        <button onClick={() => navigate('/cart')} className="text-gray-600 hover:text-black">
-          🛒 Cart
-        </button>
-      </div>
-
     <div className="flex flex-col md:flex-row gap-8 p-6 md:p-12">
       <form onSubmit={handleSubmit} className="w-full md:w-2/3 space-y-6">
         <div>
           <h2 className="text-lg font-semibold mb-2">Contact</h2>
+
           <input
             type="email"
             placeholder="Enter your Email"
@@ -141,6 +118,13 @@ const Checkout = () => {
             value={form.email}
             onChange={e => setForm({ ...form, email: e.target.value })}
             required
+          />
+          <input 
+          placeholder="Phone" 
+          className="border w-full p-2" 
+          value={form.phone} 
+          onChange={e => setForm({ ...form, phone: e.target.value })} 
+          required 
           />
         </div>
         <div>
