@@ -23,6 +23,7 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const [isLiked, setIsLiked] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
@@ -34,67 +35,73 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const hasDiscount = product.sale_price && product.sale_price < product.price;
 
   return (
-    <div className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
-      <div className="relative overflow-hidden">
+    <div 
+      className="group relative bg-white transition-all duration-300"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="relative overflow-hidden bg-gray-100">
         <img
           src={product.image_url || '/placeholder.svg'}
           alt={product.title}
-          className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <div className="absolute top-3 right-3 space-y-2">
-          {hasDiscount && (
-            <Badge className="bg-red-500 text-white">
-              -{Math.round(((product.price - product.sale_price!) / product.price) * 100)}%
-            </Badge>
-          )}
-          <Button
-            variant="ghost"
-            size="icon"
-            className={`bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-200 ${
-              isLiked ? 'text-red-500' : 'text-gray-600'
-            }`}
-            onClick={() => setIsLiked(!isLiked)}
-          >
-            <Heart className={`h-4 w-4 ${isLiked ? 'fill-current' : ''}`} />
-          </Button>
+        
+        {/* Quick Actions - Show on Hover */}
+        <div className={`absolute inset-0 bg-black/10 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+          <div className="absolute top-4 right-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              className={`bg-white hover:bg-gray-100 transition-colors ${
+                isLiked ? 'text-red-500' : 'text-gray-600'
+              }`}
+              onClick={() => setIsLiked(!isLiked)}
+            >
+              <Heart className={`h-4 w-4 ${isLiked ? 'fill-current' : ''}`} />
+            </Button>
+          </div>
+          
+          <div className="absolute bottom-4 left-4 right-4">
+            <Button
+              onClick={handleAddToCart}
+              disabled={product.stock_quantity === 0}
+              className="w-full bg-black hover:bg-gray-800 text-white font-medium py-3"
+            >
+              {product.stock_quantity === 0 ? 'OUT OF STOCK' : 'ADD TO CART'}
+            </Button>
+          </div>
         </div>
+
+        {/* Sale Badge */}
+        {hasDiscount && (
+          <div className="absolute top-4 left-4">
+            <Badge className="bg-red-500 text-white font-medium">
+              SALE
+            </Badge>
+          </div>
+        )}
+
+        {/* Out of Stock Overlay */}
         {product.stock_quantity === 0 && (
-          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-            <Badge variant="destructive">Out of Stock</Badge>
+          <div className="absolute inset-0 bg-white/80 flex items-center justify-center">
+            <span className="text-gray-600 font-medium">OUT OF STOCK</span>
           </div>
         )}
       </div>
       
-      <div className="p-4">
-        {product.categories && (
-          <Badge variant="outline" className="mb-2 text-xs">
-            {product.categories.name}
-          </Badge>
-        )}
-        <h3 className="font-semibold text-gray-800 mb-2 line-clamp-2">{product.title}</h3>
-        <p className="text-gray-600 text-sm mb-3 line-clamp-2">{product.description}</p>
+      <div className="pt-4 text-center">
+        <h3 className="font-medium text-gray-900 mb-2 tracking-wide">{product.title}</h3>
         
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <span className="text-lg font-bold text-emerald-600">
-              ${displayPrice.toFixed(2)}
+        <div className="flex items-center justify-center space-x-2">
+          <span className="text-lg font-medium text-black">
+            ${displayPrice.toFixed(2)}
+          </span>
+          {hasDiscount && (
+            <span className="text-sm text-gray-500 line-through">
+              ${product.price.toFixed(2)}
             </span>
-            {hasDiscount && (
-              <span className="text-sm text-gray-500 line-through">
-                ${product.price.toFixed(2)}
-              </span>
-            )}
-          </div>
-          
-          <Button
-            size="sm"
-            onClick={handleAddToCart}
-            disabled={product.stock_quantity === 0}
-            className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-full px-4"
-          >
-            <ShoppingCart className="h-4 w-4 mr-1" />
-            Add
-          </Button>
+          )}
         </div>
       </div>
     </div>

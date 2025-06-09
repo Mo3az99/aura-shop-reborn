@@ -31,17 +31,10 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-emerald-50 p-4">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="text-center">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <div className="w-10 h-10 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold">A</span>
-            </div>
-            <CardTitle className="text-2xl bg-gradient-to-r from-emerald-600 to-emerald-800 bg-clip-text text-transparent">
-              Aura Admin
-            </CardTitle>
-          </div>
+          <CardTitle className="text-2xl font-bold tracking-wider mb-2">AURA ADMIN</CardTitle>
           <CardDescription>
             Sign in to access the admin dashboard
           </CardDescription>
@@ -58,7 +51,7 @@ const AdminLogin = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@aura.com"
-                  className="pl-10"
+                  className="pl-10 border-gray-200 focus:border-black focus:ring-0"
                   required
                 />
               </div>
@@ -73,17 +66,17 @@ const AdminLogin = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
-                  className="pl-10"
+                  className="pl-10 border-gray-200 focus:border-black focus:ring-0"
                   required
                 />
               </div>
             </div>
             <Button 
               type="submit" 
-              className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700"
+              className="w-full bg-black hover:bg-gray-800 text-white font-medium"
               disabled={isLoading}
             >
-              {isLoading ? "Signing in..." : "Sign In"}
+              {isLoading ? "Signing in..." : "SIGN IN"}
             </Button>
           </form>
           <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
