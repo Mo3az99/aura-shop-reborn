@@ -1,10 +1,7 @@
-import { useState } from "react";
-import { ShoppingCart, Menu, X, Search, User, Heart } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { ShoppingCart, Menu, Heart, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/useCart";
-
-import { useEffect, useState } from "react";
 import UserAuth from "@/components/UserAuth";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -14,6 +11,7 @@ const Header = ({ setIsCartOpen }: { setIsCartOpen: (open: boolean) => void }) =
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setUser(data.user));
   }, []);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { cartItemsCount } = useCart();
 
@@ -28,9 +26,8 @@ const Header = ({ setIsCartOpen }: { setIsCartOpen: (open: boolean) => void }) =
           {user?.email === "admin@example.com" && (
             <a href="/admin" className="text-gray-700 hover:text-black">Admin</a>
           )}
-          <a href="#" className="text-gray-700 hover:text-black">Home</a>
-          <a href="#" className="text-gray-700 hover:text-black">Shop</a>
-          <a href="#" className="text-gray-700 hover:text-black">Contact</a>
+          <a href="/" className="text-gray-700 hover:text-black">Home</a>
+          <a href="/products" className="text-gray-700 hover:text-black">Shop</a>
         </nav>
         <div className="flex items-center space-x-4">
           <Input placeholder="Search" className="hidden md:block w-48" />
@@ -45,7 +42,8 @@ const Header = ({ setIsCartOpen }: { setIsCartOpen: (open: boolean) => void }) =
             )}
           </div>
           <Menu className="md:hidden cursor-pointer" onClick={() => setIsMenuOpen(!isMenuOpen)} />
-                <UserAuth />
+          <UserAuth />
+        </div>
       </div>
     </header>
   );
