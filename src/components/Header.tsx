@@ -1,38 +1,51 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { ShoppingCart, Menu, Heart, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/hooks/useCart";
 import UserAuth from "@/components/UserAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { Link } from "react-router-dom";
 
 const Header = ({ setIsCartOpen }: { setIsCartOpen: (open: boolean) => void }) => {
   const [user, setUser] = useState<any>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showAuthPopup, setShowAuthPopup] = useState(false);
+  const authRef = useRef<HTMLDivElement>(null);
+  const { cartItemsCount } = useCart();
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => setUser(data.user));
   }, []);
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { cartItemsCount } = useCart();
+  // Close popup on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (authRef.current && !authRef.current.contains(event.target as Node)) {
+        setShowAuthPopup(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
-    <header className="bg-white shadow-sm">
+    <header className="bg-white shadow-sm relative z-50">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <div className="text-xl font-bold">AURA</div>
+        <Link to="/" className="text-xl font-bold">AURA</Link>
+
         <nav className="hidden md:flex space-x-6">
-          <a href="/about" className="text-gray-700 hover:text-black">About Us</a>
-          <a href="/contact" className="text-gray-700 hover:text-black">Contact</a>
-          <a href="/checkout" className="text-gray-700 hover:text-black">Checkout</a>
-          {user?.email === "admin@example.com" && (
-            <a href="/admin" className="text-gray-700 hover:text-black">Admin</a>
+          <Link to="/about" className="text-gray-700 hover:text-black">About Us</Link>
+          <Link to="/contact" className="text-gray-700 hover:text-black">Contact</Link>
+          <Link to="/checkout" className="text-gray-700 hover:text-black">Checkout</Link>
+          {user?.email === "admin@aura.com" && (
+            <Link to="/admin" className="text-gray-700 hover:text-black">Admin</Link>
           )}
-          <a href="/" className="text-gray-700 hover:text-black">Home</a>
-          <a href="/products" className="text-gray-700 hover:text-black">Shop</a>
         </nav>
-        <div className="flex items-center space-x-4">
+
+        <div className="flex items-center space-x-4 relative">
           <Input placeholder="Search" className="hidden md:block w-48" />
           <Heart className="cursor-pointer" />
-          <User className="cursor-pointer" />
+          <User className="cursor-pointer" onClick={() => setShowAuthPopup(prev => !prev)} />
           <div className="relative cursor-pointer" onClick={() => setIsCartOpen(true)}>
             <ShoppingCart />
             {cartItemsCount > 0 && (
@@ -42,9 +55,17 @@ const Header = ({ setIsCartOpen }: { setIsCartOpen: (open: boolean) => void }) =
             )}
           </div>
           <Menu className="md:hidden cursor-pointer" onClick={() => setIsMenuOpen(!isMenuOpen)} />
-          <UserAuth />
         </div>
       </div>
+
+      {showAuthPopup && (
+        <div
+          ref={authRef}
+          className="absolute right-4 top-[70px] bg-white border shadow-md rounded-md z-50 p-4 w-64"
+        >
+          <UserAuth />
+        </div>
+      )}
     </header>
   );
 };

@@ -1,8 +1,7 @@
-
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { ShoppingCart, Menu, X, Search, User, Heart } from "lucide-react";
+import { Search, User, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ProductCard from "@/components/ProductCard";
@@ -10,13 +9,11 @@ import CategorySection from "@/components/CategorySection";
 import Cart from "@/components/Cart";
 import { useCart } from "@/hooks/useCart";
 
-import Header from "@/components/Header";
 
 const Index = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const { cartItems, cartItemsCount } = useCart();
+  const { cartItemsCount } = useCart();
 
   const { data: categories = [] } = useQuery({
     queryKey: ['categories'],
@@ -38,11 +35,11 @@ const Index = () => {
         .select('*, categories(name)')
         .eq('is_active', true)
         .order('created_at', { ascending: false });
-      
+
       if (searchQuery) {
         query = query.ilike('title', `%${searchQuery}%`);
       }
-      
+
       const { data, error } = await query;
       if (error) throw error;
       return data;
@@ -51,103 +48,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
-        <div className="container mx-auto px-4">
-          {/* Top Bar */}
-          <div className="flex items-center justify-between py-2 text-sm border-b border-gray-100">
-            <div className="text-gray-600">Free shipping on orders over $50</div>
-            <div className="flex items-center space-x-4 text-gray-600">
-              <span>Follow us</span>
-              <div className="flex space-x-2">
-                <a href="#" className="hover:text-black">Facebook</a>
-                <a href="#" className="hover:text-black">Instagram</a>
-              </div>
-            </div>
-          </div>
-
-          {/* Main Header */}
-          <div className="flex items-center justify-between py-4">
-            {/* Logo */}
-            <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-black tracking-wider">AURA ACCESSORIES</h1>
-            </div>
-
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
-              <a href="#" className="text-gray-800 hover:text-black font-medium">HOME</a>
-              <a href="#products" className="text-gray-800 hover:text-black font-medium">SHOP</a>
-              <a href="#categories" className="text-gray-800 hover:text-black font-medium">COLLECTIONS</a>
-              <a href="#" className="text-gray-800 hover:text-black font-medium">ABOUT</a>
-              <a href="#" className="text-gray-800 hover:text-black font-medium">CONTACT</a>
-              <a href="/admin" className="text-gray-800 hover:text-black font-medium">ADMIN</a>
-            </nav>
-
-            {/* Icons */}
-            <div className="flex items-center space-x-4">
-              <Search className="h-5 w-5 text-gray-700 cursor-pointer hover:text-black" />
-              <User className="h-5 w-5 text-gray-700 cursor-pointer hover:text-black" />
-              <Heart className="h-5 w-5 text-gray-700 cursor-pointer hover:text-black" />
-              <button 
-                className="relative"
-                onClick={() => setIsCartOpen(true)}
-              >
-                <ShoppingCart className="h-5 w-5 text-gray-700 hover:text-black" />
-                {cartItemsCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-4 w-4 flex items-center justify-center text-[10px]">
-                    {cartItemsCount}
-                  </span>
-                )}
-              </button>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="md:hidden"
-                onClick={() => setIsMenuOpen(true)}
-              >
-                <Menu className="h-5 w-5" />
-              </Button>
-            </div>
-          </div>
-
-          {/* Search Bar */}
-          <div className="pb-4">
-            <div className="relative max-w-md mx-auto">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <Input
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 border-gray-200 focus:border-black focus:ring-0"
-              />
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="fixed inset-0 z-50 md:hidden">
-          <div className="fixed inset-0 bg-black/20" onClick={() => setIsMenuOpen(false)} />
-          <div className="fixed right-0 top-0 h-full w-64 bg-white shadow-xl p-6">
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-lg font-semibold">Menu</h2>
-              <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(false)}>
-                <X className="h-5 w-5" />
-              </Button>
-            </div>
-            <nav className="space-y-4">
-              <a href="#" className="block text-gray-700 hover:text-black font-medium">HOME</a>
-              <a href="#products" className="block text-gray-700 hover:text-black font-medium">SHOP</a>
-              <a href="#categories" className="block text-gray-700 hover:text-black font-medium">COLLECTIONS</a>
-              <a href="#" className="block text-gray-700 hover:text-black font-medium">ABOUT</a>
-              <a href="#" className="block text-gray-700 hover:text-black font-medium">CONTACT</a>
-              <a href="/admin" className="block text-gray-700 hover:text-black font-medium">ADMIN</a>
-            </nav>
-          </div>
-        </div>
-      )}
-
       {/* Hero Section */}
       <section className="relative h-[70vh] bg-gray-100 flex items-center justify-center">
         <div className="absolute inset-0">

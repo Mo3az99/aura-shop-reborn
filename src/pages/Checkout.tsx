@@ -106,6 +106,21 @@ const Checkout = () => {
   }
 
   return (
+    <>
+    <div className="flex justify-between items-center p-4 border-b mb-6">
+      <button
+        onClick={() => navigate('/')}
+        className="text-xl font-bold text-gray-800 hover:text-black"
+      >
+        Aura
+      </button>
+      <button
+        onClick={() => navigate('/cart')}
+        className="text-gray-600 hover:text-black"
+      >
+        🛒 Cart
+      </button>
+    </div>
     <div className="flex flex-col md:flex-row gap-8 p-6 md:p-12">
       <form onSubmit={handleSubmit} className="w-full md:w-2/3 space-y-6">
         <div>
@@ -218,6 +233,35 @@ const Checkout = () => {
         </div>
       </div>
     </div>
+        <div className="flex justify-between items-center p-4 border-b mb-6">
+      <button
+        onClick={() => navigate('/')}
+        className="text-xl font-bold text-gray-800 hover:text-black"
+      >
+        Aura
+      </button>
+      <button
+        onClick={() => navigate('/cart')}
+        className="text-gray-600 hover:text-black"
+      >
+        🛒 Cart
+      </button>
+    </div>
+        <div className="flex justify-between items-center p-4 border-b mb-6">
+      <button
+        onClick={() => navigate('/')}
+        className="text-xl font-bold text-gray-800 hover:text-black"
+      >
+        Aura
+      </button>
+      <button
+        onClick={() => navigate('/cart')}
+        className="text-gray-600 hover:text-black"
+      >
+        🛒 Cart
+      </button>
+    </div>
+    </>
   );
 };
 

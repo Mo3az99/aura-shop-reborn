@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,6 +10,8 @@ import NotFound from "./pages/NotFound";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import Checkout from "./pages/Checkout";
+import MainLayout from "./layouts/MainLayout";
+import CartPage from "./pages/Cart";
 
 const queryClient = new QueryClient();
 
@@ -21,14 +22,20 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
+          {/* 🔒 Admin Pages - No layout */}
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="*" element={<NotFound />} />
-          <Route path="/about" element={<AboutUs />} />
-  <Route path="/contact" element={<ContactUs />} />
-  <Route path="/checkout" element={<Checkout />} />
-</Routes>
+          <Route path="/checkout" element={<Checkout />} />
+
+          {/* 🌐 Main Public Pages - Use layout with header */}
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<Index />} />
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/contact" element={<ContactUs />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
