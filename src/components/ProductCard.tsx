@@ -38,7 +38,7 @@ const handleAddToCart = () => {
 
   return (
     <div 
-      className="group relative bg-white transition-all duration-300"
+      className="group relative bg-beige transition-all duration-300"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -55,7 +55,7 @@ const handleAddToCart = () => {
             <Button
               variant="ghost"
               size="icon"
-              className={`bg-white hover:bg-gray-100 transition-colors ${
+              className={`bg-beige hover:bg-gray-100 transition-colors ${
                 isLiked ? 'text-red-500' : 'text-gray-600'
               }`}
               onClick={() => setIsLiked(!isLiked)}
@@ -68,7 +68,7 @@ const handleAddToCart = () => {
             <Button
               onClick={handleAddToCart}
               disabled={product.stock_quantity === 0}
-              className="w-full bg-black hover:bg-gray-800 text-white font-medium py-3"
+              className="w-full bg-brown hover:bg-gray-800 text-beige font-medium py-3"
             >
               {product.stock_quantity === 0 ? 'OUT OF STOCK' : 'ADD TO CART'}
             </Button>
@@ -78,7 +78,7 @@ const handleAddToCart = () => {
         {/* Sale Badge */}
         {hasDiscount && (
           <div className="absolute top-4 left-4">
-            <Badge className="bg-red-500 text-white font-medium">
+            <Badge className="bg-red-500 text-beige font-medium">
               SALE
             </Badge>
           </div>
@@ -86,17 +86,17 @@ const handleAddToCart = () => {
 
         {/* Out of Stock Overlay */}
         {product.stock_quantity === 0 && (
-          <div className="absolute inset-0 bg-white/80 flex items-center justify-center">
+          <div className="absolute inset-0 bg-beige/80 flex items-center justify-center">
             <span className="text-gray-600 font-medium">OUT OF STOCK</span>
           </div>
         )}
       </div>
       
       <div className="pt-4 text-center">
-        <h3 className="font-medium text-gray-900 mb-2 tracking-wide">{product.title}</h3>
+        <h3 className="font-medium text-brown mb-2 tracking-wide">{product.title}</h3>
         
         <div className="flex items-center justify-center space-x-2">
-          <span className="text-lg font-medium text-black">
+          <span className="text-lg font-medium text-brown">
             ${displayPrice.toFixed(2)}
           </span>
           {hasDiscount && (

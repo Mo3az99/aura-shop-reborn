@@ -29,27 +29,27 @@ const Header = ({ setIsCartOpen }: { setIsCartOpen: (open: boolean) => void }) =
   }, []);
 
   return (
-    <header className="bg-white shadow-sm relative z-50">
+    <header className="bg-beige shadow-sm relative z-50">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <Link to="/" className="text-xl font-bold">AURA</Link>
+        <Link to="/" className=" text-brown text-xl font-bold">AURA</Link>
 
         <nav className="hidden md:flex space-x-6">
-          <Link to="/about" className="text-gray-700 hover:text-black">About Us</Link>
-          <Link to="/contact" className="text-gray-700 hover:text-black">Contact</Link>
-          <Link to="/checkout" className="text-gray-700 hover:text-black">Checkout</Link>
+          <Link to="/about" className="text-brown hover:text-black">About Us</Link>
+          <Link to="/contact" className="text-brown hover:text-black">Contact</Link>
+          <Link to="/checkout" className="text-brown hover:text-black">Checkout</Link>
           {user?.email === "admin@aura.com" && (
-            <Link to="/admin" className="text-gray-700 hover:text-black">Admin</Link>
+            <Link to="/admin" className="text-brown hover:text-black">Admin</Link>
           )}
         </nav>
 
-        <div className="flex items-center space-x-4 relative">
-          <Input placeholder="Search" className="hidden md:block w-48" />
+        <div className="bg-beige flex items-center space-x-4 relative">
+          <Input placeholder="Search" className="bg-beige hidden md:block w-48" />
           <Heart className="cursor-pointer" />
           <User className="cursor-pointer" onClick={() => setShowAuthPopup(prev => !prev)} />
           <div className="relative cursor-pointer" onClick={() => setIsCartOpen(true)}>
             <ShoppingCart />
             {cartItemsCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-black text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+              <span className="absolute -top-2 -right-2 bg-brown text-beige rounded-full text-xs w-5 h-5 flex items-center justify-center">
                 {cartItemsCount}
               </span>
             )}
@@ -61,7 +61,7 @@ const Header = ({ setIsCartOpen }: { setIsCartOpen: (open: boolean) => void }) =
       {showAuthPopup && (
         <div
           ref={authRef}
-          className="absolute right-4 top-[70px] bg-white border shadow-md rounded-md z-50 p-4 w-64"
+          className="absolute right-4 top-[70px] bg-beige border shadow-md rounded-md z-50 p-4 w-64"
         >
           <UserAuth />
         </div>
